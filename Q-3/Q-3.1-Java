@@ -1,0 +1,82 @@
+
+import java.util.HashSet;
+import java.util.Set;
+
+class Student {
+
+    private final String regNo;
+    private final String name;
+
+    Student(String regNo, String name) {
+        this.regNo = regNo;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+
+        if (!(o instanceof Student)) return false;
+
+        Student other = (Student) o;
+
+        return regNo.equals(other.regNo);
+    }
+
+    // hashCode() is intentionally not overridden.
+
+    @Override
+    public String toString() {
+        return regNo + " - " + name;
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        // Test 1: Same object scanned twice
+        Set<Student> sameReference = new HashSet<>();
+
+        Student s1 = new Student("192311001", "Aru");
+
+        sameReference.add(s1);
+        sameReference.add(s1);
+
+        System.out.println(
+            "Same object scanned twice: "
+            + sameReference.size()
+        );
+
+        // Test 2: Different objects with the same ID
+        Set<Student> duplicateScans = new HashSet<>();
+
+        duplicateScans.add(
+            new Student("192311001", "Aru")
+        );
+
+        duplicateScans.add(
+            new Student("192311001", "Aru")
+        );
+
+        System.out.println(
+            "Separate objects with same ID: "
+            + duplicateScans.size()
+        );
+
+        // Assignment's original test
+        Set<Student> present = new HashSet<>();
+
+        present.add(new Student("192311001", "Aru"));
+
+        present.add(new Student("192311002", "Divya"));
+
+        present.add(new Student("192311001", "Aru"));
+
+        System.out.println(
+            "Unique students before hashCode fix: "
+            + present.size()
+        );
+    }
+}
